@@ -14,7 +14,8 @@
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%           
+<% 
+    Conn conn = new Conn();
     
     String masterCode = request.getParameter("masterCode");
     String detailCode = request.getParameter("detailCode");
@@ -29,7 +30,7 @@
     
    //out.print(sqlInsert);
     
-    boolean isInsert = rmic.setQuerySQL(Conn.HOST, Conn.PORT, sqlInsert);
+    boolean isInsert = rmic.setQuerySQL(conn.HOST, conn.PORT, sqlInsert);
     
     if (isInsert == true) {
         out.print("Success");

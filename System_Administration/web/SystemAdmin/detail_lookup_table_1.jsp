@@ -5,11 +5,16 @@
 <%@page import="dBConn.Conn"%>
 <%@page import="main.RMIConnector"%>
 
+<%
+    Conn conn = new Conn();
+%>
+
 <table  id="THE_detailTable"  class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
     <th>Master Code</th>
+    <th>Master Name</th>
     <th>Detail Code</th>
-    <th>Description</th>
+    <th>Detail Name</th>
     <th>Status</th>
     <th>Update</th>
     <th>Delete</th>
@@ -17,8 +22,8 @@
 <tbody>
 
     <%
-        String sql = " SELECT master_reference_code, detail_reference_code, description, IFNULL(status, 'N/A')  FROM adm_lookup_detail ";
-        ArrayList<ArrayList<String>> dataDetail = Conn.getData(sql);
+        String sql = " SELECT lm.master_reference_code, ld.detail_reference_code, ld.description, IFNULL(ld.status, 'N/A'), lm.description   FROM adm_lookup_detail ld join adm_lookup_master lm using (master_reference_code)";
+        ArrayList<ArrayList<String>> dataDetail = conn.getData(sql);
 
         int size = dataDetail.size();
         for (int i = 0; i < size; i++) {
@@ -27,6 +32,7 @@
     <tr>
         <input id="DLT_hidden" type="hidden" value="<%=String.join("|", dataDetail.get(i))%>">
         <td><%= dataDetail.get(i).get(0)%></td>
+        <td><%= dataDetail.get(i).get(4)%></td>
         <td><%= dataDetail.get(i).get(1)%></td>
         <td><%= dataDetail.get(i).get(2)%></td>
         <td><%= dataDetail.get(i).get(3)%></td>
@@ -42,6 +48,8 @@
             <!-- Delete Button End -->
         </td>
     </tr>
+    
+    
 
     <%
         }
@@ -121,34 +129,191 @@
 
 
 <script type="text/javascript" charset="utf-8">
-  $('#detailTable').on('click', '#THE_detailTable #DLT_btnUpdate', function (e) {
-        e.preventDefault();
-        
-        //go to the top
-//        $('html,body').animate({
-//            scrollTop: $("#maintainFam").offset().top
-//        }, 500);
+    
+    $('#detailTable').off('click', '#THE_detailTable #DLT_btnUpdate').on('click', '#THE_detailTable #DLT_btnUpdate', function (e) {
+            e.preventDefault();
 
-        //get the row value
-        var row = $(this).closest("tr");
-        var rowData = row.find("#DLT_hidden").val();
-        var arrayData = rowData.split("|");
-        //assign into seprated val
-        var masterCode = arrayData[0], detailCode = arrayData[1], detailDesc = arrayData[2], status = arrayData[3];
-        //set value in input on the top
-        $('#DLT_masterCode_').val(masterCode);
-        $('#detailCode_').val(detailCode);
-        $('#detailDesc_').val(detailDesc);
+            //go to the top
+    //        $('html,body').animate({
+    //            scrollTop: $("#maintainFam").offset().top
+    //        }, 500);
+
+            //get the row value
+            var row = $(this).closest("tr");
+            var rowData = row.find("#DLT_hidden").val();
+            var arrayData = rowData.split("|");
+            //assign into seprated val
+            var masterCode = arrayData[0], detailCode = arrayData[1], detailDesc = arrayData[2], status = arrayData[3];
+            //set value in input on the top
+            $('#DLT_masterCode_').val(masterCode);
+            $('#detailCode_').val(detailCode);
+            $('#detailDesc_').val(detailDesc);
+
+            if(status === '1')
+                $('#DLT_status_').val(1);
+            else
+                $('#DLT_status_').val(0);
+
+
+
+            console.log(arrayData);
+        });
+    
         
-        if(status === '1')
-            $('#DLT_status_').val(1);
-        else
-            $('#DLT_status_').val(0);
-          
+  
+    
+    
+    $('#DLT_btn_update_').on('click', function(){
+        
+        var masterCode = $('#DLT_masterCode_').val();
+        var detailCode = $('#detailCode_').val();
+        var detailDesc = $('#detailDesc_').val();
+        var status = $('#DLT_status_').val();
+        
+        if(detailDesc === "" || detailDesc === null){
+            alert("Please fill in the description");
+            $('#detailDesc_').focus();
+        }else if(status !== '1' && status !== '0'){
+            alert("Please choose the status");
+            $('#DLT_status_').focus();
+        }else{
+            
+             var data = {
+                    masterCode : masterCode,
+                    detailCode : detailCode,
+                    detailDesc : detailDesc,
+                    status : status
+                };
+            
+             $.ajax({
+                    url: "detail_lookup_update.jsp",
+                    type: "post",
+                    data: data,
+                    timeout: 10000,
+                    success: function (datas) {
+                        console.log(datas);
+                        if (datas.trim() === 'Success') {
+                            $('#detailTable').load('detail_lookup_table_1.jsp');
+                            $(".modal-backdrop").hide();
+                            alert("Update Success");
+                        } else if (datas.trim() === 'Failed') {
+                            alert("Update failed!");
+
+                        }
+                    },
+                    error: function (err) {
+                        alert("Error update!");
+                    }
+
+                });
+        }
         
         
-        console.log(arrayData);
+        
     });
+    
+     $('#detailTable').off('click', '#THE_detailTable #DLT_deleteButton_').on('click', '#THE_detailTable #DLT_deleteButton_', function (e) {
+            e.preventDefault();
+
+            var row = $(this).closest("tr");
+            var rowData = row.find("#DLT_hidden").val();
+            var arrayData = rowData.split("|");
+            //assign into seprated val
+            var masterCode = arrayData[0], detailCode = arrayData[1];
+            console.log(arrayData);
+
+            var conf = confirm('Are you sure want to delete?');
+                    if (conf) {
+
+
+
+                        var data = {
+                            detailCode : detailCode,
+                            masterCode : masterCode
+                        };
+
+                        $.ajax({
+                            url: "detail_lookup_delete.jsp",
+                            type: "post",
+                            data: data,
+                            timeout: 10000, // 10 seconds
+                            success: function (datas) {
+
+                                if (datas.trim() === 'Success') {
+                                    $('#detailTable').load('detail_lookup_table_1.jsp');
+                                    alert("Delete Success");
+                                } else if (datas.trim() === 'Failed') {
+                                    alert("Delete failed!");
+                                }
+
+                            },
+                            error: function (err) {
+                                alert("Error! Deletion failed!!");
+                            }
+
+                        });
+
+                    }
+
+
+
+        });
+
+    
+//      $('#detailTable').on('click', '#THE_detailTable #DLT_deleteButton_', function (e) {
+//        e.preventDefault();
+//        var row2 = $(this).closest("tr");
+//        var rowData2 = row2.find("#DLT_hidden").val();
+//        
+//        console.log(rowData2.split("|"));
+//        confirm({
+//            message: "Are you sure want to delete the detail code?",
+//            buttons: {
+//                confirm: {
+//                    label: 'Yes',
+//                    className: 'btn-success'
+//                },
+//                cancel: {
+//                    label: 'No',
+//                    className: 'btn-danger'
+//                }
+//            },
+//            callback: function (result) {
+//                
+//                if (result === true) {
+//                    //get the row value
+//                    row2.remove();
+//                    var arrayData2 = rowData2.split("|");
+//                    //assign into seprated val
+//                    var masterCode = arrayData2[0], detailCode = arrayData2[1];
+//                    var datas = {masterCode : masterCode,
+//                                 detailCode : detailCode};
+//                    console.log(datas);
+//                    $.ajax({
+//                        type: "post",
+//                        url: "detail_lookup_delete.jsp",
+//                        data: datas,
+//                        timeout: 3000,
+//                        success: function (data) {
+//                             if (datas.trim() === 'Success') {
+//                                alert("Delete Success");
+//                            } else if (datas.trim() === 'Failed') {
+//                                alert("Delete failed!");
+//                            }
+//
+//
+//                        }, error: function () {
+//
+//                        }
+//
+//                    });
+//                }
+//            }
+//        });
+//    });
+     
+    
+//   
     
 </script>  
 
@@ -161,6 +326,6 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
         $('#THE_detailTable').DataTable();
-
+        
     });
 </script>

@@ -43,6 +43,14 @@
                             <input id="masterName" name="masterName" type="text" placeholder="Master Lookup Name" class="form-control input-md">
                         </div>
                     </div>
+                    
+                     <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Source</label>
+                        <div class="col-md-8">
+                            <input id="masterSource" name="masterName" type="text" placeholder="Master Lookup Name" class="form-control input-md">
+                        </div>
+                    </div>
 
                     
                     <!-- Text input-->
@@ -90,6 +98,7 @@
             function reset () {
                 document.getElementById("masterCode").value = "";
                 document.getElementById("masterName").value = "";
+                document.getElementById("masterSource").value = "";
                 document.getElementById("status1").checked = false;
                 document.getElementById("status2").checked = false;
             }
@@ -99,63 +108,64 @@
             });
 
             $('#btnAdd').on('click', function () {
-                $('#masterTable').load('master_lookup_table_1.jsp');
-                
-//                var masterCode = $('#masterCode').val();
-//                var masterName = $('#masterName').val();
-//                var status = $('input[name="status"]:checked').val();
-//
-//                if (masterCode === "") {
-//                    alert("Fill in the Master Code");
-//                    $('#masterCode').focus();
-//                    
-//                } else if (masterName === "") {
-//                    alert("Complete The Fields");
-//                    $('#masterName').focus();
-//                    
-//                } else if (status !== "1" && status !== "0") {
-//                    alert("Select Any Status");
-//                } else {
-//
-//                    var data = {
-//                        masterCode : masterCode,
-//                        masterName : masterName,
-//                        status: status
-//                    };
-//
-//                    $.ajax({
-//                        url: "master_lookup_insert.jsp",
-//                        type: "post",
-//                        data: data,
-//                        timeout: 10000,
-//                        success: function (datas) {
-//
-//                            if (datas.trim() === 'Success') {
-//
-//                                $('#masterTable').load('master_lookup_table_1.jsp');
-//                                $('#detail').modal('hide');
-//                                alert("Insertion Success");
-//                                reset();
-//                                
-//                            } else if (datas.trim() === 'Failed') {
-//                                
-//                                alert("Insertion failed!");
-//                                //$('#detail').modal('hide');
-//                                reset();
-//                                
-//                            } else{
-//                                alert(datas);
-//                                document.getElementById("masterCode").value = "";
-//                                $('#masterCode').focus();
-//                            }
-//                            
-//                        },
-//                        error: function (err) {
-//                            console.log("Ajax Is Not Success");
-//                        }
-//
-//                    });
-//                }
+                               
+                var masterCode = $('#masterCode').val();
+                var masterName = $('#masterName').val();
+                var masterSource = $('#masterSource').val();
+                var status = $('input[name="status"]:checked').val();
+
+                if (masterCode === "") {
+                    alert("Fill in the Master Code");
+                    $('#masterCode').focus();
+                    
+                } else if (masterName === "") {
+                    alert("Complete The Fields");
+                    $('#masterName').focus();
+                    
+                } else if (status !== "1" && status !== "0") {
+                    alert("Select Any Status");
+                } else {
+
+                    var data = {
+                        masterCode : masterCode,
+                        masterName : masterName,
+                        masterSource : masterSource,
+                        status: status
+                    };
+
+                    $.ajax({
+                        url: "master_lookup_insert.jsp",
+                        type: "post",
+                        data: data,
+                        timeout: 10000,
+                        success: function (datas) {
+
+                            if (datas.trim() === 'Success') {
+
+                                $('#masterTable').load('master_lookup_table_1.jsp');
+                                $('#detail').modal('hide');
+                                alert("Insertion Success");
+                                reset();
+                                
+                            } else if (datas.trim() === 'Failed') {
+                                
+                                alert("Insertion failed!");
+                                //$('#detail').modal('hide');
+                                reset();
+                                
+                            } else{
+                                alert(datas.trim());
+                                document.getElementById("masterCode").value = "";
+                                $('#masterCode').focus();
+                            }
+                            
+                        },
+                        error: function (err) {
+                            console.log("Ajax Is Not Success");
+                        }
+
+                    });
+                }
 
             });
 

@@ -15,15 +15,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%           
-    
+    Conn conn = new Conn();
     String masterCode = request.getParameter("masterCode");
     String masterName = request.getParameter("masterName");
+    String masterSource = request.getParameter("masterSource");
     String status = request.getParameter("status");
     String userID = (String)session.getAttribute("USER_ID");
     
     
     String sqlCheck = "SELECT master_reference_code from adm_lookup_master WHERE master_reference_code = '"+masterCode+"' LIMIT 1 ";
-    ArrayList<ArrayList<String>> duplicate = Conn.getData(sqlCheck);
+    ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
     
     if(duplicate.size() > 0)
     {
@@ -32,9 +33,9 @@
     else{
         RMIConnector rmic = new RMIConnector();
 
-        String sqlInsert = "INSERT INTO adm_lookup_master values('"+masterCode+"', '"+masterName+"', '', '"+status+"', '"+userID+"', now())";
+        String sqlInsert = "INSERT INTO adm_lookup_master values('"+masterCode+"', '"+masterName+"', '"+masterSource+"', '"+status+"', '"+userID+"', DATE_FORMAT(NOW(),'%d/%m/%Y'))";
 
-        boolean isInsert = rmic.setQuerySQL(Conn.HOST, Conn.PORT, sqlInsert);
+        boolean isInsert = rmic.setQuerySQL(conn.HOST, conn.PORT, sqlInsert);
 
         if (isInsert == true) {
             out.print("Success");

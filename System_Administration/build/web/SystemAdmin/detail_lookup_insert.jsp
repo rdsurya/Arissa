@@ -15,6 +15,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
+    Conn conn = new Conn();
 
     String masterCode = request.getParameter("masterCode");
     String detailCode = request.getParameter("detailCode");
@@ -24,7 +25,7 @@
 
     String sqlCheck = "Select master_reference_code FROM adm_lookup_detail WHERE master_reference_code = '" + masterCode + "' AND detail_reference_code = '" + detailCode + "' LIMIT 1 ";
 
-    ArrayList<ArrayList<String>> duplicate = Conn.getData(sqlCheck);
+    ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
 
     if (duplicate.size() > 0) {
         out.print("Duplicate combination of Master Code and Detail Code. Please use different combination.");
@@ -36,7 +37,7 @@
         String sqlInsert = "INSERT INTO adm_lookup_detail(master_reference_code, detail_reference_code, description, status, created_by, created_date)"
                 + " VALUES('" + masterCode + "', '" + detailCode + "', '" + detailDesc + "', '" + status + "', '" + userID + "', now())";
 
-        boolean isInsert = rmic.setQuerySQL(Conn.HOST, Conn.PORT, sqlInsert);
+        boolean isInsert = rmic.setQuerySQL(conn.HOST, conn.PORT, sqlInsert);
 
         if (isInsert == true) {
             out.print("Success");

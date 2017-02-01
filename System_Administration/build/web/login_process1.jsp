@@ -16,13 +16,15 @@
     final int LOGIN = 2;
     int status = 0;
     
+    Conn conn = new Conn();
+    
     String user_id = request.getParameter("userID");
     String password = request.getParameter("password");
       
     
     
     String sql2 = "SELECT * FROM adm_user WHERE USER_ID = '"+user_id+"' ";
-    ArrayList<ArrayList<String>> dataStaff = Conn.getData(sql2);
+    ArrayList<ArrayList<String>> dataStaff = conn.getData(sql2);
 
 //    out.print(dataPatient.size());
 //    out.print(dataStaff.size());

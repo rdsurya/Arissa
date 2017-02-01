@@ -37,23 +37,12 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Master code</label>
                         <div class="col-md-8">
-                            <select class="form-control" name="tstatus" id="masterCode2">
-                                <option value="Select Master Code">Select Master Code</option>
-                                <%
-                                    String sql = "SELECT master_reference_code, description FROM adm_lookup_master";
-                                    ArrayList<ArrayList<String>> listOfMasterCode = Conn.getData(sql); 
-                                    
-                                    int size = listOfMasterCode.size();
-                                    
-                                    for(int i = 0; i < size; i++)
-                                    {
-                                %>
-                                <option value="<%= listOfMasterCode.get(i).get(0) %>"><%= listOfMasterCode.get(i).get(0)%> - <%= listOfMasterCode.get(i).get(1)%> </option>
-                                <%
-                                    }
-                                %>
-                                
-                            </select>
+                            <input type="text"  class="form-control" id="masterCode2" placeholder="Master Code">
+                            <div id="match">
+                                <!--for search area-->
+                            </div>
+                            
+                           
                         </div>
                     </div>
                     
@@ -61,7 +50,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Detail code</label>
                         <div class="col-md-8">
-                            <input id="detailCode" name="detailCode" type="text" placeholder="Lookup Detail Code" class="form-control input-md">
+                            <input id="detailCode" maxlength="30" name="detailCode" type="text" placeholder="Lookup Detail Code" class="form-control input-md">
                         </div>
                     </div>
 
@@ -69,7 +58,31 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Detail Name</label>
                         <div class="col-md-8">
-                            <input id="detailName" name="detailName" type="text" placeholder="Lookup Detail Name" class="form-control input-md">
+                            <input id="detailName" maxlength="200" name="detailName" type="text" placeholder="Lookup Detail Name" class="form-control input-md">
+                        </div>
+                    </div>
+                    
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Priority</label>
+                        <div class="col-md-8">
+                            <input id="DLT_priority"  type="number" maxlength="10" placeholder="Prority indicator" class="form-control input-md">
+                        </div>
+                    </div>
+                    
+                     <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Start Date</label>
+                        <div class="col-md-8">
+                            <input id="DLT_startDate" type="text" placeholder="Date(dd/mm/yyyy)" class="form-control input-md">
+                        </div>
+                    </div>
+                     
+                      <!-- Text input-->
+                     <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">End Date</label>
+                        <div class="col-md-8">
+                            <input id="DLT_endDate" type="text" placeholder="Date(dd/mm/yyyy)" class="form-control input-md">
                         </div>
                     </div>
 
@@ -116,6 +129,18 @@
 
         $(document).ready(function () {
             
+            $('#DLT_startDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy'
+            });
+            
+            $('#DLT_endDate').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy'
+            });
+            
             function reset () {
                 document.getElementById("masterCode2").value = "";
                 document.getElementById("detailCode").value = "";
@@ -128,10 +153,10 @@
                 reset();
             });
             
-            $('#btnAddNewTest').on('click', function () {
-                $('#detailTable').load('detail_lookup_table_1.jsp');
-                
-            });
+//            $('#btnAddNewTest').on('click', function () {
+//                $('#detailTable').load('detail_lookup_table_1.jsp');
+//                
+//            });
 
             $('#btnAdd2').on('click', function () {
                 var masterCode = $('#masterCode2').val();
@@ -154,6 +179,10 @@
                 }else if (status !== "1" && status !== "0") {
                     alert("Select Any Status");
                 } else {
+                    
+                    var arrayData = $('#masterCode2').val().split("|");
+                    masterCode = arrayData[0].trim();
+                                    
 
                     var data = {
                         masterCode : masterCode,
@@ -173,7 +202,7 @@
 
                             if (datas.trim() === 'Success') {
 
-                                $('#detailTable').load('detail_lookup_table.jsp');
+                                $('#detailTable').load('detail_lookup_table_1.jsp');
                                 $('#detail2').modal('hide');
                                 alert("Insertion Success");
                                 reset();
@@ -199,6 +228,37 @@
                 }
 
             });
+            
+            $("#masterCode2").on('keyup', function () { // everytime keyup event
+                    var input = $(this).val(); // We take the input value
+                    if (input.length >= 1) { // Minimum characters = 2 (you can change)
+                        $('#match').html('<img src="bootstrap-3.3.6-dist/image/ajax-loader.gif" />'); // Loader icon apprears in the <div id="match"></div>
+                        var dataFields = {input : input}; // We pass input argument in Ajax
+                        $.ajax({
+                            type: "POST",
+                            url: "result.jsp", // call the php file ajax/tuto-autocomplete.php
+                            data: dataFields, // Send dataFields var
+                            timeout: 3000,
+                            success: function (dataBack) { // If success
+                                $('#match').html(dataBack); // Return data (UL list) and insert it in the <div id="match"></div>
+                                $('#matchList li').on('click', function () { // When click on an element in the list
+                                    //$('#masterCode2').text($(this).text()); // Update the field with the new element
+                                    $('#masterCode2').val($(this).text());
+                                    $('#match').text(''); // Clear the <div id="match"></div>
+                                     var arrayData = $('#masterCode2').val().split("|");
+                                     console.log(arrayData);
+                                     console.log(arrayData[0].trim());
+                                     console.log(arrayData[1].trim());
+                                });
+                            },
+                            error: function () { // if error
+                                $('#match').text('Problem!');
+                            }
+                        });
+                    } else {
+                        $('#match').text(''); // If less than 2 characters, clear the <div id="match"></div>
+                    }
+                });
             
             
             

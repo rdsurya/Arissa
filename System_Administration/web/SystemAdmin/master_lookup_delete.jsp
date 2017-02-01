@@ -17,13 +17,14 @@
 
 
 <%
+    Conn conn = new Conn();
 
     String id = request.getParameter("masterCode");
 
     RMIConnector rmic = new RMIConnector();
     String sql = "DELETE FROM adm_lookup_master WHERE master_reference_code = '" + id + "' ";
 
-    boolean status = rmic.setQuerySQL(Conn.HOST, Conn.PORT, sql);
+    boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
 
     if (status == true) {
         out.print("Success");

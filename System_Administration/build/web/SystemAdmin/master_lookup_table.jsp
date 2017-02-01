@@ -12,7 +12,7 @@
 <table  id="THE_masterTable"  class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
     <th>Master Code</th>
-    <th>Master Code Description</th>
+    <th>Master Name</th>
     <th>Status</th>
     <th>Update</th>
     <th>Delete</th>
