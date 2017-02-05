@@ -15,6 +15,9 @@
     <th>Master Name</th>
     <th>Detail Code</th>
     <th>Detail Name</th>
+    <th>Priority</th>
+    <th>Start Date</th>
+    <th>End Date</th>
     <th>Status</th>
     <th>Update</th>
     <th>Delete</th>
@@ -22,7 +25,8 @@
 <tbody>
 
     <%
-        String sql = " SELECT lm.master_reference_code, ld.detail_reference_code, ld.description, IFNULL(ld.status, 'N/A'), lm.description   FROM adm_lookup_detail ld join adm_lookup_master lm using (master_reference_code)";
+        String sql = " SELECT lm.master_reference_code, ld.detail_reference_code, ld.description, IFNULL(ld.status, ''), lm.description, ifnull(ld.priority_indicator, '0'), ifnull(DATE_FORMAT(ld.start_date,'%d/%m/%Y'), ''), ifnull(DATE_FORMAT(ld.end_date,'%d/%m/%Y'), '')"
+                + " FROM adm_lookup_detail ld join adm_lookup_master lm using (master_reference_code)";
         ArrayList<ArrayList<String>> dataDetail = conn.getData(sql);
 
         int size = dataDetail.size();
@@ -30,30 +34,36 @@
     %>
 
     <tr>
-        <input id="DLT_hidden" type="hidden" value="<%=String.join("|", dataDetail.get(i))%>">
-        <td><%= dataDetail.get(i).get(0)%></td>
-        <td><%= dataDetail.get(i).get(4)%></td>
-        <td><%= dataDetail.get(i).get(1)%></td>
-        <td><%= dataDetail.get(i).get(2)%></td>
-        <td><%= dataDetail.get(i).get(3)%></td>
+<input id="DLT_hidden" type="hidden" value="<%=String.join("|", dataDetail.get(i))%>">
+<td style="width: 10% "><%= dataDetail.get(i).get(0)%></td> <!--master code  -->   
+<td style="width: 10% "><%= dataDetail.get(i).get(4)%></td> <!--master name  --> 
+<td><%= dataDetail.get(i).get(1)%></td> <!--detail code  --> 
+<td><%= dataDetail.get(i).get(2)%></td> <!--detail name  --> 
+<td><%= dataDetail.get(i).get(5)%></td> <!--priority  --> 
+<td><%= dataDetail.get(i).get(6)%></td> <!--start Date  --> 
+<td><%= dataDetail.get(i).get(7)%></td> <!--end date  --> 
+<td><%if(dataDetail.get(i).get(3).equals("1"))
+                out.print("Active"); 
+              else
+                out.print("Inactive"); %></td> <!--status 3 --> 
 
-        <td>
+<td style="width: 5% ">
 
-            <!-- Update Part Start -->
-            <a id="DLT_btnUpdate" data-toggle="modal" data-target="#DLT_detail2_"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
-        </td>
-        <td>
-            <!-- Delete Button Start -->
-            <a id="DLT_deleteButton_" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
-            <!-- Delete Button End -->
-        </td>
-    </tr>
-    
-    
+    <!-- Update Part Start -->
+    <a id="DLT_btnUpdate" data-toggle="modal" data-target="#DLT_detail2_"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+</td>
+<td style="width: 5% ">
+    <!-- Delete Button Start -->
+    <a id="DLT_deleteButton_" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
+    <!-- Delete Button End -->
+</td>
+</tr>
 
-    <%
-        }
-    %>
+
+
+<%
+    }
+%>
 
 </tbody>
 </table>
@@ -89,9 +99,33 @@
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Description</label>
+                        <label class="col-md-4 control-label" for="textinput">Detail Code Name</label>
                         <div class="col-md-8">
-                            <textarea id="detailDesc_" class="form-control" rows="3"  ></textarea>
+                            <input id="detailDesc_" class="form-control" maxlength="200"  >
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Priority</label>
+                        <div class="col-md-8">
+                            <input id="DLT_priority" class="form-control" type="number" maxlength="10" >
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Start Date</label>
+                        <div class="col-md-8">
+                            <input id="DLT_startDate" class="form-control" type="text" readonly="true" >
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">End Date</label>
+                        <div class="col-md-8">
+                            <input id="DLT_endDate" class="form-control" type="text" readonly="true">
                         </div>
                     </div>
 
@@ -129,137 +163,170 @@
 
 
 <script type="text/javascript" charset="utf-8">
-    
+
     $('#detailTable').off('click', '#THE_detailTable #DLT_btnUpdate').on('click', '#THE_detailTable #DLT_btnUpdate', function (e) {
-            e.preventDefault();
+        e.preventDefault();
+        $('#DLT_endDate').datepicker('option', 'minDate', null);
 
-            //go to the top
-    //        $('html,body').animate({
-    //            scrollTop: $("#maintainFam").offset().top
-    //        }, 500);
+        //go to the top
+        //        $('html,body').animate({
+        //            scrollTop: $("#maintainFam").offset().top
+        //        }, 500);
 
-            //get the row value
-            var row = $(this).closest("tr");
-            var rowData = row.find("#DLT_hidden").val();
-            var arrayData = rowData.split("|");
-            //assign into seprated val
-            var masterCode = arrayData[0], detailCode = arrayData[1], detailDesc = arrayData[2], status = arrayData[3];
-            //set value in input on the top
-            $('#DLT_masterCode_').val(masterCode);
-            $('#detailCode_').val(detailCode);
-            $('#detailDesc_').val(detailDesc);
+        //get the row value
+        var row = $(this).closest("tr");
+        var rowData = row.find("#DLT_hidden").val();
+        var arrayData = rowData.split("|");
+        //assign into seprated val
+        var masterCode = arrayData[0], detailCode = arrayData[1], detailDesc = arrayData[2], status = arrayData[3], priority = arrayData[5], startDate = arrayData[6], endDate = arrayData[7];
+        //set value in input on the top
+        $('#DLT_masterCode_').val(masterCode);
+        $('#detailCode_').val(detailCode);
+        $('#detailDesc_').val(detailDesc);
+        $('#DLT_priority').val(priority);
+        $('#DLT_startDate').val(startDate);
+        $('#DLT_endDate').val(endDate);
 
-            if(status === '1')
-                $('#DLT_status_').val(1);
-            else
-                $('#DLT_status_').val(0);
+        if (status === '1')
+            $('#DLT_status_').val(1);
+        else
+            $('#DLT_status_').val(0);
 
 
 
-            console.log(arrayData);
-        });
-    
-        
-  
-    
-    
-    $('#DLT_btn_update_').on('click', function(){
-        
+        console.log(arrayData);
+    });
+
+
+
+
+
+    $('#DLT_btn_update_').on('click', function () {
+
         var masterCode = $('#DLT_masterCode_').val();
         var detailCode = $('#detailCode_').val();
         var detailDesc = $('#detailDesc_').val();
+        var priority = $('#DLT_priority').val();
+        var startDate = $('#DLT_startDate').val();
+        var endDate = $('#DLT_endDate').val();
         var status = $('#DLT_status_').val();
-        
-        if(detailDesc === "" || detailDesc === null){
+
+        var startDateX = $('#DLT_startDate').datepicker('getDate');
+        var endDateX = $('#DLT_endDate').datepicker('getDate');
+
+
+        if (detailDesc === "" || detailDesc === null) {
             alert("Please fill in the description");
             $('#detailDesc_').focus();
-        }else if(status !== '1' && status !== '0'){
+
+        } else if (status !== '1' && status !== '0') {
             alert("Please choose the status");
             $('#DLT_status_').focus();
-        }else{
-            
-             var data = {
-                    masterCode : masterCode,
-                    detailCode : detailCode,
-                    detailDesc : detailDesc,
-                    status : status
-                };
-            
-             $.ajax({
-                    url: "detail_lookup_update.jsp",
-                    type: "post",
-                    data: data,
-                    timeout: 10000,
-                    success: function (datas) {
-                        console.log(datas);
-                        if (datas.trim() === 'Success') {
-                            $('#detailTable').load('detail_lookup_table_1.jsp');
-                            $(".modal-backdrop").hide();
-                            alert("Update Success");
-                        } else if (datas.trim() === 'Failed') {
-                            alert("Update failed!");
 
-                        }
-                    },
-                    error: function (err) {
-                        alert("Error update!");
+        } else if (priority === "" || priority === null) {
+            $('#DLT_priority').focus();
+            alert("Fill in the priority");
+
+        } else if (startDate === "" || startDate === null) {
+            $('#DLT_startDate').focus();
+            alert("Fill in the start date");
+
+        } else if (endDate === "" || endDate === null) {
+            $('#DLT_endDate').focus();
+            alert("Fill in the end date");
+
+        } else if (startDateX > endDateX) {
+            alert("End date must be later than start date");
+            $('#DLT_endDate').datepicker('option', 'minDate', startDateX);
+            $('#DLT_endDate').focus();
+
+        } else {
+
+            var data = {
+                masterCode: masterCode,
+                detailCode: detailCode,
+                detailDesc: detailDesc,
+                priority: priority,
+                startDate: startDate,
+                endDate: endDate,
+                status: status
+            };
+
+            $.ajax({
+                url: "detail_lookup_update.jsp",
+                type: "post",
+                data: data,
+                timeout: 10000,
+                success: function (datas) {
+                    console.log(datas.trim());
+                    if (datas.trim() === 'Success') {
+                        $('#detailTable').load('detail_lookup_table_1.jsp');
+                        $(".modal-backdrop").hide();
+                        alert("Update Success");
+                    } else if (datas.trim() === 'Failed') {
+                        alert("Update failed!");
+
                     }
+                },
+                error: function (err) {
+                    alert("Error update!");
+                }
 
-                });
+            });
         }
-        
-        
-        
+
+
+
     });
-    
-     $('#detailTable').off('click', '#THE_detailTable #DLT_deleteButton_').on('click', '#THE_detailTable #DLT_deleteButton_', function (e) {
-            e.preventDefault();
 
-            var row = $(this).closest("tr");
-            var rowData = row.find("#DLT_hidden").val();
-            var arrayData = rowData.split("|");
-            //assign into seprated val
-            var masterCode = arrayData[0], detailCode = arrayData[1];
-            console.log(arrayData);
+    $('#detailTable').off('click', '#THE_detailTable #DLT_deleteButton_').on('click', '#THE_detailTable #DLT_deleteButton_', function (e) {
+        e.preventDefault();
 
-            var conf = confirm('Are you sure want to delete?');
-                    if (conf) {
+        var row = $(this).closest("tr");
+        var rowData = row.find("#DLT_hidden").val();
+        var arrayData = rowData.split("|");
+        //assign into seprated val
+        var masterCode = arrayData[0], detailCode = arrayData[1];
+        console.log(arrayData);
+
+        var conf = confirm('Are you sure want to delete?');
+        if (conf) {
 
 
 
-                        var data = {
-                            detailCode : detailCode,
-                            masterCode : masterCode
-                        };
+            var data = {
+                detailCode: detailCode,
+                masterCode: masterCode
+            };
 
-                        $.ajax({
-                            url: "detail_lookup_delete.jsp",
-                            type: "post",
-                            data: data,
-                            timeout: 10000, // 10 seconds
-                            success: function (datas) {
+            $.ajax({
+                url: "detail_lookup_delete.jsp",
+                type: "post",
+                data: data,
+                timeout: 10000, // 10 seconds
+                success: function (datas) {
 
-                                if (datas.trim() === 'Success') {
-                                    $('#detailTable').load('detail_lookup_table_1.jsp');
-                                    alert("Delete Success");
-                                } else if (datas.trim() === 'Failed') {
-                                    alert("Delete failed!");
-                                }
-
-                            },
-                            error: function (err) {
-                                alert("Error! Deletion failed!!");
-                            }
-
-                        });
-
+                    if (datas.trim() === 'Success') {
+                        $('#detailTable').load('detail_lookup_table_1.jsp');
+                        alert("Delete Success");
+                    } else if (datas.trim() === 'Failed') {
+                        alert("Delete failed!");
                     }
 
+                },
+                error: function (err) {
+                    alert("Error! Deletion failed!!");
+                }
+
+            });
+
+        }
 
 
-        });
 
-    
+    });
+
+
 //      $('#detailTable').on('click', '#THE_detailTable #DLT_deleteButton_', function (e) {
 //        e.preventDefault();
 //        var row2 = $(this).closest("tr");
@@ -311,10 +378,10 @@
 //            }
 //        });
 //    });
-     
-    
+
+
 //   
-    
+
 </script>  
 
 
@@ -326,6 +393,18 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
         $('#THE_detailTable').DataTable();
-        
+
+        $('#DLT_startDate').datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'dd/mm/yy'
+        });
+
+        $('#DLT_endDate').datepicker({
+            changeYear: true,
+            changeMonth: true,
+            dateFormat: 'dd/mm/yy'
+        });
+
     });
 </script>

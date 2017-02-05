@@ -55,43 +55,47 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script>
 
-//            $("#btnSign").click(function(){
-//                
-//                var userID = $("#inputUserID").val();
-//                var password = $("#inputPassword").val();
-//                $.ajax({
-//                        url: "login_process2.jsp",
-//                        type: "post",
-//                        data: {userID : userID,
-//                        password : password
-//                        },
-//                        timeout: 3000,
-//                        success: function(data) {
-//                        alert(data);
-//                        },
-//                        error: function(err) {
-//                            alert("error");
-//                        }
-//
-//                        });
-//        } );
+    <div w3-include-html="libraries/script.html"></div>
+
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+    <script>
+        w3IncludeHTML();
+        $(document).ready(function () {
+
+            $(document).bind('keypress', pressed);
+        });
+
+        function pressed(e)
+        {
+            if (e.keyCode === 13)
+            {
+                //alert('enter pressed');
+                login();
+                //put button.click() here
+            }
+        }
 
         $('#btnSign').on('click', function () {
+
+            login();
+
+        });
+
+        function login() {
+
             var userID = $("#inputUserID").val();
             var password = $("#inputPassword").val();
-            
-            if(userID === ""){
+
+            if (userID === "") {
                 alert("Fill in the User ID");
                 $("#inputUserID").focus();
-            }
-            else if(password === ""){
+            } else if (password === "") {
                 alert("Fill in the password");
                 $("#inputPassword").focus();
-            }
-            else{
-               
+            } else {
+
                 $.ajax({
                     url: "login_process1.jsp",
                     type: "post",
@@ -101,12 +105,12 @@
                     timeout: 3000,
                     success: function (data) {
                         var num = parseInt(data);
-                        
-                        if(num === 2)
+
+                        if (num === 2)
                             window.location = "facility.jsp";
-                        else if(num === 1)
+                        else if (num === 1)
                             alert("Wrong password");
-                        else if(num ===0)
+                        else if (num === 0)
                             alert("User ID does not exist");
                         else
                             alert("Error");
@@ -117,17 +121,7 @@
 
                 });
             }
-            
-        });
-    </script>
-
-
-    <div w3-include-html="libraries/script.html"></div>
-
-    <script src="http://www.w3schools.com/lib/w3data.js"></script>
-
-    <script>
-        w3IncludeHTML();
+        }
     </script>
 </body>
 </html>

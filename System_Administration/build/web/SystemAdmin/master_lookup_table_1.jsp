@@ -35,10 +35,13 @@
         <td><%= dataMaster.get(i).get(0)%></td>
         <td><%= dataMaster.get(i).get(1)%></td>
         <td><%= dataMaster.get(i).get(3)%></td>
-        <td><%= dataMaster.get(i).get(2)%></td>
+        <td><%if(dataMaster.get(i).get(2).equals("1"))
+                out.print("Active"); 
+              else
+                out.print("Inactive"); %></td>
 
 
-        <td>
+        <td style="width: 5% ">
 
             <!-- Update Part Start -->
             <a id="MLT_btnUpdate" data-toggle="modal" data-target="#detail2_"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
@@ -48,7 +51,7 @@
             <!-- Update Part End -->
         </td>
         <!-- Delete Part Start -->
-        <td>
+        <td style="width: 5% ">
             <!-- Delete Button Start -->
             <a id="deleteButton_" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
         </td>
@@ -85,7 +88,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Master Code Name</label>
                         <div class="col-md-8">
-                            <input type="text" id="masterDesc_" class="form-control"  >
+                            <input type="text" id="masterDesc_" class="form-control" maxlength="100"  >
                         </div>
                     </div>
                     
@@ -93,7 +96,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Source</label>
                         <div class="col-md-8">
-                            <input id="masterSource_" name="textinput" type="text" placeholder="Master Code" class="form-control input-md">
+                            <input id="masterSource_" name="textinput" type="text" placeholder="Master Code" class="form-control input-md" maxlength="30">
                         </div>
                     </div>
 

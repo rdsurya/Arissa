@@ -4,9 +4,6 @@
     Author     : user
 --%>
 
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.text.DateFormat"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Config.Config"%>
 <%@page import="dBConn.Conn"%>
@@ -33,7 +30,7 @@
     else{
         RMIConnector rmic = new RMIConnector();
 
-        String sqlInsert = "INSERT INTO adm_lookup_master values('"+masterCode+"', '"+masterName+"', '"+masterSource+"', '"+status+"', '"+userID+"', DATE_FORMAT(NOW(),'%d/%m/%Y'))";
+        String sqlInsert = "INSERT INTO adm_lookup_master values('"+masterCode+"', '"+masterName+"', '"+masterSource+"', '"+status+"', '"+userID+"', now())";
 
         boolean isInsert = rmic.setQuerySQL(conn.HOST, conn.PORT, sqlInsert);
 

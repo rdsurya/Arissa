@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Master code</label>
                         <div class="col-md-8">
-                            <input id="masterCode" name="masterCode" type="text" placeholder="Master Lookup Code" class="form-control input-md">
+                            <input id="masterCode" name="masterCode" type="text" placeholder="Master Lookup Code" class="form-control input-md" maxlength="30">
                         </div>
                     </div>
 
@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Master Name</label>
                         <div class="col-md-8">
-                            <input id="masterName" name="masterName" type="text" placeholder="Master Lookup Name" class="form-control input-md">
+                            <input id="masterName" name="masterName" type="text" placeholder="Master Lookup Name" class="form-control input-md" maxlength="100">
                         </div>
                     </div>
                     
@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Source</label>
                         <div class="col-md-8">
-                            <input id="masterSource" name="masterName" type="text" placeholder="Master Lookup Name" class="form-control input-md">
+                            <input id="masterSource" name="masterName" type="text" placeholder="Source (optional)" class="form-control input-md" maxlength="30">
                         </div>
                     </div>
 

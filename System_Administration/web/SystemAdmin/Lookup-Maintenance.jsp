@@ -10,13 +10,7 @@
 <%@page import="Config.Config"%>
 <%@page import="main.RMIConnector"%>
 <%@include file="validateSession.jsp" %>
-<%
-//    Config.getBase_url(request);
-//    Config.getFile_url(session);
-//    Conn conn = new Conn();
-//    out.print("-------------------------------------------------------------------"+conn.getIpCall());
 
-%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -38,7 +32,7 @@
 
 <body>
     <!-- menu top -->
-    <div w3-include-html="libraries/topMenus.html"></div>
+    <div w3-include-html="libraries/topMenus.jsp"></div>
     <!-- menu top -->
 
     <div class="container-fluid">
@@ -56,9 +50,9 @@
 
 
                             <!-- Tab Menu -->
-                            <h3>Welcome <%= session.getAttribute("USER_NAME")%></h3>
+                            <%-- <h3>Welcome <%= session.getAttribute("USER_NAME")%></h3> --%>
                             <div class="tabbable-panel">
-                                <h1>Lookup Maintenance</h1>
+                                <h1>Lookup Code Maintenance</h1>
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs ">
                                         <li class="active">
@@ -139,6 +133,7 @@
         w3IncludeHTML();
 
         $(document).ready(function () {
+            
             $("#masterMain").load("master_lookup_main_1.jsp");
             $("#masterTable").load("master_lookup_table_1.jsp");
 

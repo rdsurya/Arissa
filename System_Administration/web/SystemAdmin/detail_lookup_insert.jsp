@@ -4,6 +4,7 @@
     Author     : user
 --%>
 
+<%@page import="Formatter.DateFormatter"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.DateFormat"%>
@@ -20,6 +21,9 @@
     String masterCode = request.getParameter("masterCode");
     String detailCode = request.getParameter("detailCode");
     String detailDesc = request.getParameter("detailName");
+    String priority = request.getParameter("priority");
+    String startDate = request.getParameter("startDate");
+    String endDate = request.getParameter("endDate");
     String status = request.getParameter("status");
     String userID = (String) session.getAttribute("USER_ID");
 
@@ -28,14 +32,17 @@
     ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
 
     if (duplicate.size() > 0) {
-        out.print("Duplicate combination of Master Code and Detail Code. Please use different combination.");
+        out.print("Sorry, the code that you're entering is already used. Please, enter different code");
 
     } else {
-
+        
+        startDate = DateFormatter.formatDate(startDate, "dd/MM/yyyy", "yyyy-MM-dd HH:mm:ss.ms");
+        endDate = DateFormatter.formatDate(endDate, "dd/MM/yyyy", "yyyy-MM-dd HH:mm:ss.ms");
+        
         RMIConnector rmic = new RMIConnector();
 
-        String sqlInsert = "INSERT INTO adm_lookup_detail(master_reference_code, detail_reference_code, description, status, created_by, created_date)"
-                + " VALUES('" + masterCode + "', '" + detailCode + "', '" + detailDesc + "', '" + status + "', '" + userID + "', now())";
+        String sqlInsert = "INSERT INTO adm_lookup_detail"
+                + " VALUES('" + masterCode + "', '" + detailCode + "', '" + detailDesc + "', '"+priority+"', '"+startDate+"', '"+endDate+"', '" + status + "', '" + userID + "', now())";
 
         boolean isInsert = rmic.setQuerySQL(conn.HOST, conn.PORT, sqlInsert);
 
