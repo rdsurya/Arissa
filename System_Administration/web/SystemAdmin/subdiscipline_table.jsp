@@ -52,11 +52,11 @@
 <td style="width: 5% ">
 
     <!-- Update Part Start -->
-    <a id="SDT_btnUpdate" data-toggle="modal" data-target="#SDT_detail"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+    <a id="SDT_btnUpdate" data-toggle="modal" data-target="#SDT_detail" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
 </td>
 <td style="width: 5% ">
     <!-- Delete Button Start -->
-    <a id="SDT_btnDelete" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
+    <a id="SDT_btnDelete" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
     <!-- Delete Button End -->
 </td>
 </tr>
@@ -213,7 +213,14 @@
                     if (datas.trim() === 'Success') {
                         $('#subdisciplineTable').load('subdiscipline_table.jsp');
                         $(".modal-backdrop").hide();
-                        alert("Update Success");
+                        //alert("Update Success");
+                        
+                        bootbox.alert({
+                                    message: "Subdiscipline is updated",
+                                    title: "Process Result",
+                                    backdrop: true
+                                });
+                        
                     } else if (datas.trim() === 'Failed') {
                         alert("Update failed!");
 
@@ -239,41 +246,64 @@
         //assign into seprated val
         var disciplineCode = arrayData[0], subdisciplineCode = arrayData[2];
         console.log(arrayData);
-
-        var conf = confirm('Are you sure want to delete? ' + disciplineCode + "-" + subdisciplineCode );
-        if (conf) {
-
-
-
-            var data = {
-                subdisciplineCode: subdisciplineCode,
-                disciplineCode: disciplineCode
-            };
-
-            $.ajax({
-                url: "subdiscipline_delete.jsp",
-                type: "post",
-                data: data,
-                timeout: 10000, // 10 seconds
-                success: function (datas) {
-
-                    if (datas.trim() === 'Success') {
-                        $('#subdisciplineTable').load('subdiscipline_table.jsp');
-                        alert("Delete Success");
-                    } else if (datas.trim() === 'Failed') {
-                        alert("Delete failed!");
-                    }
-
+        
+        bootbox.confirm({
+            message: "Are you sure want to delete this item? " + disciplineCode + "-" + subdisciplineCode,
+            title: "Delete Item?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
                 },
-                error: function (err) {
-                    alert("Error! Deletion failed!!");
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+
+                if (result === true) {
+                    
+                    var data = {
+                        subdisciplineCode: subdisciplineCode,
+                        disciplineCode: disciplineCode
+                    };
+
+                    $.ajax({
+                        url: "subdiscipline_delete.jsp",
+                        type: "post",
+                        data: data,
+                        timeout: 10000, // 10 seconds
+                        success: function (datas) {
+
+                            if (datas.trim() === 'Success') {
+                                $('#subdisciplineTable').load('subdiscipline_table.jsp');
+                                //alert("Delete Success");
+                                 bootbox.alert({
+                                    message: "A subdiscipline is deleted",
+                                    title: "Process Result",
+                                    backdrop: true
+                                });
+                                
+                            } else if (datas.trim() === 'Failed') {
+                                alert("Delete failed!");
+                            }
+
+                        },
+                        error: function (err) {
+                            alert("Error! Deletion failed!!");
+                        }
+
+                    });
+                    
+                } else {
+                    console.log("Process Is Canceled");
                 }
 
-            });
+            }
+        });
 
-        }
-
-
+       
 
     });
 

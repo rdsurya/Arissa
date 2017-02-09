@@ -50,11 +50,11 @@
 <td style="width: 5% ">
 
     <!-- Update Part Start -->
-    <a id="DLT_btnUpdate" data-toggle="modal" data-target="#DLT_detail2_"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+    <a id="DLT_btnUpdate" data-toggle="modal" data-target="#DLT_detail2_" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
 </td>
 <td style="width: 5% ">
     <!-- Delete Button Start -->
-    <a id="DLT_deleteButton_" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
+    <a id="DLT_deleteButton_" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
     <!-- Delete Button End -->
 </td>
 </tr>
@@ -262,7 +262,7 @@
                     if (datas.trim() === 'Success') {
                         $('#detailTable').load('detail_lookup_table_1.jsp');
                         $(".modal-backdrop").hide();
-                        alert("Update Success");
+                        bootbox.alert("A lookup detail code is updated");
                     } else if (datas.trim() === 'Failed') {
                         alert("Update failed!");
 
@@ -289,8 +289,8 @@
         var masterCode = arrayData[0], detailCode = arrayData[1];
         console.log(arrayData);
 
-        var conf = confirm('Are you sure want to delete?');
-        if (conf) {
+        bootbox.confirm('Are you sure want to delete? '+ masterCode +"-"+detailCode, function(conf){
+            if (conf) {
 
 
 
@@ -308,19 +308,22 @@
 
                     if (datas.trim() === 'Success') {
                         $('#detailTable').load('detail_lookup_table_1.jsp');
-                        alert("Delete Success");
+                        bootbox.alert("A lookup detail is deleted");
                     } else if (datas.trim() === 'Failed') {
                         alert("Delete failed!");
                     }
 
                 },
                 error: function (err) {
-                    alert("Error! Deletion failed!!");
+                    bootbox.alert("Error! Deletion failed!!");
                 }
 
             });
 
         }
+            
+        }  );
+        
 
 
 

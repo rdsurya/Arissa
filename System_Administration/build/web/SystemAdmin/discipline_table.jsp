@@ -48,7 +48,7 @@
         <td>
 
             <!-- Update Part Start -->
-            <a id="DT_btnUpdate" data-toggle="modal" data-target="#DT_detail"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+            <a id="DT_btnUpdate" data-toggle="modal" data-target="#DT_detail" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
 
             <!-- Modal Update -->
 
@@ -57,7 +57,7 @@
         <!-- Delete Part Start -->
         <td>
             <!-- Delete Button Start -->
-            <a id="DT_btnDelete" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
+            <a id="DT_btnDelete" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
         </td>
         <!-- Delete Button End -->
     </tr>
@@ -221,8 +221,15 @@
 
                         if (datas.trim() === 'Success') {
                             $('#disciplineTable').load('discipline_table.jsp');
-                             $(".modal-backdrop").hide();
-                            alert("Update Success");
+                            $(".modal-backdrop").hide();
+                            //alert("Update Success");
+                            
+                            bootbox.alert({
+                                    message: "Discipline is updated",
+                                    title: "Process Result",
+                                    backdrop: true
+                                });
+                            
                         } else if (datas.trim() === 'Failed') {
                             alert("Update failed!");
                         }
@@ -249,10 +256,24 @@
         //assign into seprated val
         var disciplineCode = arrayData[0];
         console.log(arrayData);
-         
-          var conf = confirm('Are you sure want to delete? ' + disciplineCode);
-            if (conf) {
+        
+        bootbox.confirm({
+            message: "Are you sure want to delete this item?" + disciplineCode,
+            title: "Delete Item?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
 
+                if (result === true) {
+                    
                 var data = {
                     disciplineCode: disciplineCode 
                 };
@@ -266,7 +287,14 @@
 
                         if (datas.trim() === 'Success') {
                             $('#disciplineTable').load('discipline_table.jsp');
-                            alert("Delete Success");
+                            //alert("Delete Success");
+                            
+                            bootbox.alert({
+                                    message: "A discipline is deleted",
+                                    title: "Process Result",
+                                    backdrop: true
+                                });
+                            
                         } else if (datas.trim() === 'Failed') {
                             alert("Delete failed!");
                         }
@@ -277,9 +305,15 @@
                     }
 
                 });
+                    
+                } else {
+                    console.log("Process Is Canceled");
+                }
 
             }
+        });
          
+          
      });
     
 

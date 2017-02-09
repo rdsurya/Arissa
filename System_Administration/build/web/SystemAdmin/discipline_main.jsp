@@ -159,7 +159,12 @@
 
                                 $('#disciplineTable').load('discipline_table.jsp');
                                 $('#DM_detail').modal('hide');
-                                alert("Insertion Success");
+                                //alert("Insertion Success");
+                                bootbox.alert({
+                                message: "New discipline is added",
+                                title: "Process Result",
+                                backdrop: true
+                            });
                                 DM_reset();
                                 
                             } else if (datas.trim() === 'Failed') {

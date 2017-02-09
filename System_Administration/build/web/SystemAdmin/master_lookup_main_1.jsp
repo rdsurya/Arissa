@@ -144,17 +144,17 @@
 
                                 $('#masterTable').load('master_lookup_table_1.jsp');
                                 $('#detail').modal('hide');
-                                alert("Insertion Success");
+                                bootbox.alert("New master lookup code is added");
                                 reset();
                                 
                             } else if (datas.trim() === 'Failed') {
                                 
-                                alert("Insertion failed!");
+                                bootbox.alert("Insertion failed!");
                                 //$('#detail').modal('hide');
                                 reset();
                                 
                             } else{
-                                alert(datas.trim());
+                                bootbox.alert(datas.trim());
                                 document.getElementById("masterCode").value = "";
                                 $('#masterCode').focus();
                             }

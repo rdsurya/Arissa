@@ -13,7 +13,7 @@
     <% for (int i = 0; i < search.size(); i++)
         {
     %>
-    <li><%=search.get(i).get(0)%> | <%=search.get(i).get(1)%></li>
+    <li><a style="cursor: pointer"><%=search.get(i).get(0)%> | <%=search.get(i).get(1)%></a></li>
     <%
         }
     %>

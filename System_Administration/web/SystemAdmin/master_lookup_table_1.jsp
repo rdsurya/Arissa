@@ -44,7 +44,7 @@
         <td style="width: 5% ">
 
             <!-- Update Part Start -->
-            <a id="MLT_btnUpdate" data-toggle="modal" data-target="#detail2_"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+            <a id="MLT_btnUpdate" data-toggle="modal" data-target="#detail2_" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
 
             <!-- Modal Update -->
 
@@ -53,7 +53,7 @@
         <!-- Delete Part Start -->
         <td style="width: 5% ">
             <!-- Delete Button Start -->
-            <a id="deleteButton_" class="testing"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
+            <a id="deleteButton_" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
         </td>
         <!-- Delete Button End -->
     </tr>
@@ -96,7 +96,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Source</label>
                         <div class="col-md-8">
-                            <input id="masterSource_" name="textinput" type="text" placeholder="Master Code" class="form-control input-md" maxlength="30">
+                            <input id="masterSource_" name="textinput" type="text" placeholder="Source Indicator" class="form-control input-md" maxlength="30">
                         </div>
                     </div>
 
@@ -226,9 +226,10 @@
         //assign into seprated val
         var masterCode = arrayData[0];
         console.log(arrayData);
-         
-          var conf = confirm('Are you sure want to delete?' + masterCode);
-            if (conf) {
+            
+          bootbox.confirm('Are you sure want to delete? ' + masterCode, function(conf){
+              
+              if (conf) {
 
                 var data = {
                     masterCode: masterCode 
@@ -243,7 +244,7 @@
 
                         if (datas.trim() === 'Success') {
                             $('#masterTable').load('master_lookup_table_1.jsp');
-                            alert("Delete Success");
+                            bootbox.alert("A master lookup code is deleted");
                         } else if (datas.trim() === 'Failed') {
                             alert("Delete failed!");
                         }
@@ -256,6 +257,9 @@
                 });
 
             }
+              
+          } );
+            
          
      });
     

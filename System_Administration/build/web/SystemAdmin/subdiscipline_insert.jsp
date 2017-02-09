@@ -24,9 +24,17 @@
     String sqlCheck = "SELECT subdiscipline_cd from adm_subdiscipline WHERE discipline_cd = '"+disciplineCode+"' AND subdiscipline_cd = '"+subdisciplineCode+"' LIMIT 1 ";
     ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
     
+    
+    String sqlCheck2 = "SELECT discipline_cd from adm_discipline WHERE discipline_cd = '"+disciplineCode+"' LIMIT 1";
+    ArrayList<ArrayList<String>> disciplineExist = conn.getData(sqlCheck2);
+    
     if(duplicate.size() > 0)
     {
         out.print("Sorry, the subdiscipline code that you have entered is already used. Please enter different code.");
+        
+    }else if(disciplineExist.size() <= 0){
+    
+        out.print("Please choose existing discipline"); 
     }
     else{
         RMIConnector rmic = new RMIConnector();

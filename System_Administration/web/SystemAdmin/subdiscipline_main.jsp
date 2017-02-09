@@ -8,9 +8,9 @@
 <!-- Add Part Start -->
 <!-- Add Button Start -->
 <h4 style="padding-top: 30px;padding-bottom: 35px; font-weight: bold">
-    LOOKUP DETAIL MANAGEMENT
+    SUBDISCIPLINE MANAGEMENT
     <span class="pull-right">
-        <button id="SDM_btnAddNew" class="btn btn-success" data-status="pagado" data-toggle="modal" data-id="1" data-target="#SDM_detail" style=" padding-right: 10px;padding-left: 10px;color: white;"><a data-toggle="tooltip" data-placement="top" title="Add Items" id="test"><i class=" fa fa-plus" style=" padding-right: 10px;padding-left: 10px;color: white;"></i></a>ADD Subdiscipline Detail</button>
+        <button id="SDM_btnAddNew" class="btn btn-success" data-status="pagado" data-toggle="modal" data-id="1" data-target="#SDM_detail" style=" padding-right: 10px;padding-left: 10px;color: white;"><a data-toggle="tooltip" data-placement="top" title="Add Items" id="test"><i class=" fa fa-plus" style=" padding-right: 10px;padding-left: 10px;color: white;"></i></a>ADD Subdiscipline</button>
     </span>
 </h4>
 <!-- Add Button End -->
@@ -22,7 +22,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times fa-lg" style="color: red"></i></button>
-                <h3 class="modal-title" id="lineModalLabel">Add New Subdiscipline Detail</h3>
+                <h3 class="modal-title" id="lineModalLabel">Add New Subdiscipline</h3>
             </div>
             <div class="modal-body">
 
@@ -180,7 +180,12 @@
 
                             $('#subdisciplineTable').load('subdiscipline_table.jsp');
                             $('#SDM_detail').modal('hide');
-                            alert("Insertion Success");
+                            //alert("Insertion Success");
+                            bootbox.alert({
+                                    message: "New subdiscipline is added",
+                                    title: "Process Result",
+                                    backdrop: true
+                                });
                             reset();
 
                         } else if (datas.trim() === 'Failed') {
@@ -191,9 +196,23 @@
 
                         } else {
                             
-                            alert(datas.trim());
-                            $('#SDM_subdisciplineCode').val("");
-                            $('#SDM_subdisciplineCode').focus();
+                            //alert(datas.trim());
+                            bootbox.alert({
+                                    message: datas.trim(),
+                                    title: "Process Result",
+                                    backdrop: true
+                                });
+                                
+                            if(datas.trim().toString().includes("discipline")){
+                                $('#SDM_disciplineCode').val("");
+                                $('#SDM_disciplineCode').focus();
+                                
+                            }else{
+                                
+                                $('#SDM_subdisciplineCode').val("");
+                                $('#SDM_subdisciplineCode').focus();
+                            }    
+                            
                         }
 
                     },

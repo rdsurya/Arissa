@@ -30,10 +30,17 @@
     String sqlCheck = "Select master_reference_code FROM adm_lookup_detail WHERE master_reference_code = '" + masterCode + "' AND detail_reference_code = '" + detailCode + "' LIMIT 1 ";
 
     ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
+    
+    String sqlCheck2 = "SELECT master_reference_code FROM adm_lookup_master WHERE  master_reference_code = '"+masterCode+"' LIMIT 1";
+     ArrayList<ArrayList<String>> masterExist = conn.getData(sqlCheck2);
 
     if (duplicate.size() > 0) {
         out.print("Sorry, the code that you're entering is already used. Please, enter different code");
 
+    }else if(masterExist.size() <= 0){
+    
+        out.print("Master code does not exist");
+    
     } else {
         
         startDate = DateFormatter.formatDate(startDate, "dd/MM/yyyy", "yyyy-MM-dd HH:mm:ss.ms");

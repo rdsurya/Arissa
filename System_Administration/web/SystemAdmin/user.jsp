@@ -75,7 +75,7 @@
 									<div class="tab-pane" id="tab_default_2">
 										<h4>Search Lookup Detail
 											<span class="pull-right">
-												<a href="#" alt="Add Items" data-toggle="tooltip" data-placement="top" title="Add Items"><i class=" fa fa-plus" style=" padding-right: 5px;"></i></a>
+												<a data-toggle="modal" data-id="1" data-target="#detail" alt="Add Items" data-toggle="tooltip" data-placement="top" title="Add Items"><i class=" fa fa-plus" style=" padding-right: 5px;"></i></a>
 											</span>
 										</h4>
 										
@@ -93,7 +93,8 @@
 													<tbody>
                                                                                                             <% String sql = "SELECT a.user_id, a.user_name, a.occupation_code, a.health_facility_code, b.discipline_code, b.subdiscipline_code " + 
                                                                                                                     "FROM adm_user AS a join adm_user_access_role AS b using (user_id) ";
-                                                                                                               ArrayList<ArrayList<String>> dataStaff = Conn.getData(sql); 
+                                                                                                                Conn conn = new Conn();
+                                                                                                               ArrayList<ArrayList<String>> dataStaff = conn.getData(sql); 
                                                                                                                
                                                                                                                int size = dataStaff.size();
                                                                                                                for(int i=0; i<size; i++){

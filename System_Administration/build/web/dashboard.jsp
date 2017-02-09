@@ -127,7 +127,7 @@
                         </a>
                     </div>
                     <div class="col-md-3">
-                        <a href="SystemAdmin/System-Admin.jsp" class="thumbnail">
+                        <a href="SystemAdmin/Lookup-Maintenance.jsp" class="thumbnail">
                             <div class="kotak text-center">
                                 <i class="fa fa-desktop" aria-hidden="true" style="color: #333; font-size: 4em;"></i>
                                 <h3>System Administration</h3>

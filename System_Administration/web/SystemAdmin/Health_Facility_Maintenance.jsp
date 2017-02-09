@@ -4,11 +4,7 @@
     Author     : user
 --%>
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.*"%>
-<%@page import="dBConn.Conn"%>
-<%@page import="Config.Config"%>
-<%@page import="main.RMIConnector"%>
+
 <%@include file="validateSession.jsp" %>
 
 
@@ -38,7 +34,7 @@
     <div class="container-fluid">
         <div class="row">       
             <!-- menu side -->		
-            <div w3-include-html="libraries/sideMenus.html"></div>
+            <div w3-include-html="libraries/sideMenus.jsp"></div>
             <!-- menu side -->	
 
             <!-- main -->	
@@ -53,18 +49,24 @@
                                 <div class="tabbable-line">
                                     <ul class="nav nav-tabs ">
                                         <li class="active">
-                                            <a href="#HFM_tab1" data-toggle="tab">
+                                            <a href="#HM_tab1" data-toggle="tab">
                                                 DISCIPLINE </a>
                                         </li>
+                                        
                                         <li>
-                                            <a href="#HFM_tab2" data-toggle="tab">
+                                            <a href="#HM_tab2" data-toggle="tab">
                                                 SUBDISCIPLINE </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="#HM_tab3" data-toggle="tab">
+                                                HEALTH FACILITY </a>
                                         </li>
 
                                     </ul>
                                     <!-- tab content -->
                                     <div class="tab-content">
-                                        <div class="tab-pane active" id="HFM_tab1">
+                                        <div class="tab-pane active" id="HM_tab1">
 
                                             <div id="discipline">
 
@@ -76,12 +78,24 @@
                                             </div>
 
                                         </div>
-                                        <div class="tab-pane" id="HFM_tab2">
+                                        
+                                        <div class="tab-pane" id="HM_tab2">
 
                                             <div id="subdiscipline">
                                                 <div id="subdisciplineMain">
                                                 </div>
                                                 <div id="subdisciplineTable">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                        <div class="tab-pane" id="HM_tab3">
+
+                                            <div id="healthFacility">
+                                                <div id="healthFacilityMain">
+                                                </div>
+                                                <div id="healthFacilityTable">
                                                 </div>
                                             </div>
 
@@ -123,6 +137,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://www.w3schools.com/lib/w3data.js"></script>
     <script src="bootstrap-3.3.6-dist/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="bootstrap-3.3.6-dist/js/jquery.dataTables.min.js"></script>
+    <script src="bootstrap-3.3.6-dist/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
 
 
 
@@ -136,6 +153,9 @@
 
             $("#subdisciplineMain").load("subdiscipline_main.jsp");
             $("#subdisciplineTable").load("subdiscipline_table.jsp");
+            
+            $("#healthFacilityMain").load("healthFacility_main.jsp");
+            $("#healthFacilityTable").load("healthFacility_table.jsp");
 
 
         });

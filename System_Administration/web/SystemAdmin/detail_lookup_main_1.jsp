@@ -240,18 +240,24 @@
 
                             $('#detailTable').load('detail_lookup_table_1.jsp');
                             $('#detail2').modal('hide');
-                            alert("Insertion Success");
+                            bootbox.alert("Insertion Success");
                             reset();
 
                         } else if (datas.trim() === 'Failed') {
 
-                            alert("Insertion failed!");
+                            bootbox.alert("Insertion failed!");
                             $('#detail2').modal('hide');
                             reset();
 
+                        }else if (datas.toString().includes("Master")) {
+
+                            bootbox.alert(datas.trim());
+                            $('#masterCode2').val("");
+                            $('#masterCode2').focus();
+
                         } else {
 
-                            alert(datas.trim());
+                            bootbox.alert(datas.trim());
                             $('#detailCode').val("");
                             $('#detailCode').focus();
                         }
