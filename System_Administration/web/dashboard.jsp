@@ -161,7 +161,9 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <div w3-include-html="libraries/script.html"></div>
 
-<script src="http://www.w3schools.com/lib/w3data.js"></script>
+<!--<script src="http://www.w3schools.com/lib/w3data.js"></script>-->
+<script src="assets/js/w3data.js" type="text/javascript"></script>
+
 <script type ="text/javascript">
     w3IncludeHTML();
 

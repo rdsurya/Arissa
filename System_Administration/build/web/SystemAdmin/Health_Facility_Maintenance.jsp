@@ -52,15 +52,20 @@
                                             <a href="#HM_tab1" data-toggle="tab">
                                                 DISCIPLINE </a>
                                         </li>
-                                        
+
                                         <li>
                                             <a href="#HM_tab2" data-toggle="tab">
                                                 SUBDISCIPLINE </a>
                                         </li>
-                                        
+
                                         <li>
                                             <a href="#HM_tab3" data-toggle="tab">
                                                 HEALTH FACILITY </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#HM_tab4" data-toggle="tab">
+                                                ASSIGN DISCIPLINE</a>
                                         </li>
 
                                     </ul>
@@ -78,7 +83,7 @@
                                             </div>
 
                                         </div>
-                                        
+
                                         <div class="tab-pane" id="HM_tab2">
 
                                             <div id="subdiscipline">
@@ -89,13 +94,24 @@
                                             </div>
 
                                         </div>
-                                        
+
                                         <div class="tab-pane" id="HM_tab3">
 
                                             <div id="healthFacility">
                                                 <div id="healthFacilityMain">
                                                 </div>
                                                 <div id="healthFacilityTable">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="tab-pane" id="HM_tab4">
+
+                                            <div id="assign">
+                                                <div id="assignDisciplineMain">
+                                                </div>
+                                                <div id="assignDisciplineTable">
                                                 </div>
                                             </div>
 
@@ -153,10 +169,11 @@
 
             $("#subdisciplineMain").load("subdiscipline_main.jsp");
             $("#subdisciplineTable").load("subdiscipline_table.jsp");
-            
+
             $("#healthFacilityMain").load("healthFacility_main.jsp");
             $("#healthFacilityTable").load("healthFacility_table.jsp");
 
+            $("#assignDisciplineMain").load("assignDiscipline_main.jsp");
 
         });
 

@@ -9,7 +9,7 @@
 <h4 style="padding-top: 30px;padding-bottom: 35px; font-weight: bold">
     LOOKUP MASTER MANAGEMENT
     <span class="pull-right">
-        <button class="btn btn-success" data-status="pagado" data-toggle="modal" data-id="1" data-target="#detail" style=" padding-right: 10px;padding-left: 10px;color: white;"><a data-toggle="tooltip" data-placement="top" title="Add Items" id="test"><i class=" fa fa-plus" style=" padding-right: 10px;padding-left: 10px;color: white;"></i></a>ADD Lookup Master</button>
+        <button id="MLM_btnAddNew" class="btn btn-success" data-status="pagado" data-toggle="modal" data-id="1" data-target="#detail" style=" padding-right: 10px;padding-left: 10px;color: white;"><a data-toggle="tooltip" data-placement="top" title="Add Items" id="test"><i class=" fa fa-plus" style=" padding-right: 10px;padding-left: 10px;color: white;"></i></a>ADD Lookup Master</button>
     </span>
 </h4>
 <!-- Add Button End -->
@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Master code</label>
                         <div class="col-md-8">
-                            <input id="masterCode" name="masterCode" type="text" placeholder="Master Lookup Code" class="form-control input-md" maxlength="30">
+                            <input id="masterCode" name="masterCode" type="text" placeholder="Master Lookup Code" class="form-control input-md" maxlength="30" readonly="true">
                         </div>
                     </div>
 
@@ -58,11 +58,11 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <label class="radio-inline">
-                                <input type="radio" name="status" id="status1" value="1">
+                                <input type="radio" name="status" id="status1" value="0">
                                 Active 
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="status" id="status2" value="0">
+                                <input type="radio" name="status" id="status2" value="1">
                                 Inactive
                             </label>
                         </div>
@@ -115,11 +115,11 @@
                 var status = $('input[name="status"]:checked').val();
 
                 if (masterCode === "") {
-                    alert("Fill in the Master Code");
+                    bootbox.alert("Fill in the Master Code");
                     $('#masterCode').focus();
                     
                 } else if (masterName === "") {
-                    alert("Complete The Fields");
+                    bootbox.alert("Complete The Fields");
                     $('#masterName').focus();
                     
                 } else if (status !== "1" && status !== "0") {
@@ -167,6 +167,23 @@
                     });
                 }
 
+            });
+            
+            $('#MLM_btnAddNew').on('click', function(){
+                
+                $.ajax({
+                    url : 'master_lookup_getMasterCode.jsp',
+                    type: 'POST',
+                    timeout: 5000,
+                    success: function (data) {
+                        
+                        $('#masterCode').val(data.trim());
+                    },
+                    error: function (err) {
+                        
+                        console.log("Ajax Is Not Success");
+                    }
+                });
             });
 
 

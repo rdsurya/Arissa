@@ -40,9 +40,9 @@
         <td><%= dataDiscipline.get(i).get(3)%></td>
         <td><%= dataDiscipline.get(i).get(4)%></td>
         <td><%if(dataDiscipline.get(i).get(5).equals("1"))
-                out.print("Active"); 
+                out.print("Inactive"); 
               else
-                out.print("Inactive"); %></td>
+                out.print("Active"); %></td>
 
 
         <td>
@@ -126,8 +126,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" name="tstatus" id="DT_status">
-                                <option value="1" >Active</option>
-                                <option value="0" >Inactive</option>
+                                <option value="0" >Active</option>
+                                <option value="1" >Inactive</option>
                                 
                             </select>
                         </div>

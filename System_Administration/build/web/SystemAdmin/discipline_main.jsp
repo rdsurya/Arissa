@@ -73,8 +73,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" name="tstatus" id="DM_status">
-                                <option  value="1" >Active</option>
-                                <option  value="0" >Inactive</option>
+                                <option  value="0" >Active</option>
+                                <option  value="1" >Inactive</option>
                             </select>
                         </div>
                     </div>

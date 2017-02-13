@@ -45,9 +45,9 @@
 <td><%= dataDetail.get(i).get(3)%></td> <!--sub name  --> 
 <td><%= dataDetail.get(i).get(4)%></td> <!--Type  -->
 <td><%if(dataDetail.get(i).get(5).equals("1"))
-                out.print("Active"); 
+                out.print("Inactive"); 
               else
-                out.print("Inactive"); %></td> <!--status --> 
+                out.print("Active"); %></td> <!--status --> 
 
 <td style="width: 5% ">
 
@@ -121,8 +121,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" name="tstatus" id="SDT_status">
-                                <option  value="1" >Active</option>
-                                <option  value="0" >Inactive</option>
+                                <option  value="0" >Active</option>
+                                <option  value="1" >Inactive</option>
                             </select>
                         </div>
                     </div>

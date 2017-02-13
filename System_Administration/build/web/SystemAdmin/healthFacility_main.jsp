@@ -489,7 +489,7 @@
             var code = $('#HFM_district').val();
             if(code !== '0'){
                 
-                if(code == '00'){
+                if(code === '00'){
                     var front = $('#HFM_state').val();
                     code = front + '00';
                 }

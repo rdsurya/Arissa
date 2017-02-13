@@ -90,11 +90,11 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <label class="radio-inline">
-                                <input type="radio" name="status2" id="status2_1" value="1">
+                                <input type="radio" name="status2" id="status2_1" value="0">
                                 Active 
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="status2" id="status2_2" value="0">
+                                <input type="radio" name="status2" id="status2_2" value="1">
                                 Inactive
                             </label>
                         </div>
@@ -178,38 +178,38 @@
             var endDateX = $('#DLM_endDate').datepicker('getDate');
 
             if (masterCode === "" || masterCode === "Select Master Code" || masterCode === null) {
-                alert("Fill in the Master Code");
+                bootbox.alert("Fill in the Master Code");
                 $('#masterCode2').focus();
 
             } else if (isMasterCodeExist === false) {
-                alert("Please choose existing master code");
+                bootbox.alert("Please choose existing master code");
                 $('#masterCode2').focus();
 
             } else if (detailCode === "") {
-                alert("Complete The Fields");
+                bootbox.alert("Complete The Fields");
                 $('#detailCode').focus();
 
             } else if (detailName === "") {
-                alert("Complete The Fields");
+                bootbox.alert("Complete The Fields");
                 $('#detailName').focus();
 
             } else if (status !== "1" && status !== "0") {
-                alert("Select Any Status");
+                bootbox.alert("Select Any Status");
 
             } else if (priority === "" || priority === null) {
-                alert("Fill in the priority indicator");
+                bootbox.alert("Fill in the priority indicator");
                 $('#DLM_priority').focus();
 
             } else if (startDate === "" || startDate === null) {
-                alert("Select the start date");
+                bootbox.alert("Select the start date");
                 $('#DLM_startDate').focus();
 
             } else if (endDate === "" || endDate === null) {
-                alert("Select the end date");
+                bootbox.alert("Select the end date");
                 $('#DLM_endDate').focus();
 
             } else if (startDateX > endDateX) {
-                alert("End date must be later than start date");
+                bootbox.alert("End date must be later than start date");
                 $('#DLM_endDate').datepicker('option', 'minDate', startDateX);
                 $('#DLM_endDate').focus();
 

@@ -34,9 +34,9 @@
         <td><%= dataSystem.get(i).get(0)%></td>
         <td><%= dataSystem.get(i).get(1)%></td>
         <td><%if(dataSystem.get(i).get(2).equals("1"))
-                out.print("Active"); 
+                out.print("Inactive"); 
               else
-                out.print("Inactive"); %></td>
+                out.print("Active"); %></td>
 
 
         <td>
@@ -95,8 +95,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" name="tstatus" id="ST_status">
-                                <option value="1" >Active</option>
-                                <option value="0" >Inactive</option>
+                                <option value="0" >Active</option>
+                                <option value="1" >Inactive</option>
                                 
                             </select>
                         </div>

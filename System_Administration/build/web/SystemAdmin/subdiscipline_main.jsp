@@ -71,8 +71,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" id="SDM_status">
-                                <option  value="1" >Active</option>
-                                <option  value="0" >Inactive</option>
+                                <option  value="0" >Active</option>
+                                <option  value="1" >Inactive</option>
                             </select>
                         </div>
                     </div>
@@ -203,14 +203,14 @@
                                     backdrop: true
                                 });
                                 
-                            if(datas.trim().toString().includes("discipline")){
+                            if(datas.trim().toString().includes("subdiscipline")){
+                                 $('#SDM_subdisciplineCode').val("");
+                                $('#SDM_subdisciplineCode').focus();
+                                
+                            }else if(datas.trim().toString().includes("discipline")){
+                                                               
                                 $('#SDM_disciplineCode').val("");
                                 $('#SDM_disciplineCode').focus();
-                                
-                            }else{
-                                
-                                $('#SDM_subdisciplineCode').val("");
-                                $('#SDM_subdisciplineCode').focus();
                             }    
                             
                         }

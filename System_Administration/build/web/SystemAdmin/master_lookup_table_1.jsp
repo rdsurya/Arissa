@@ -23,7 +23,7 @@
 <tbody>
 
     <%
-        String sql = " SELECT Master_Reference_code, description, IFNULL(status, 'N/A'), source_indicator FROM adm_lookup_master ";
+        String sql = " SELECT Master_Reference_code, description, IFNULL(status, '0'), source_indicator FROM adm_lookup_master ";
         ArrayList<ArrayList<String>> dataMaster = conn.getData(sql);
 
         int size = dataMaster.size();
@@ -36,9 +36,9 @@
         <td><%= dataMaster.get(i).get(1)%></td>
         <td><%= dataMaster.get(i).get(3)%></td>
         <td><%if(dataMaster.get(i).get(2).equals("1"))
-                out.print("Active"); 
+                out.print("Inactive"); 
               else
-                out.print("Inactive"); %></td>
+                out.print("Active"); %></td>
 
 
         <td style="width: 5% ">
@@ -106,8 +106,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" name="tstatus" id="status_">
-                                <option value="1" >Active</option>
-                                <option value="0" >Inactive</option>
+                                <option value="0" >Active</option>
+                                <option value="1" >Inactive</option>
                                 
                             </select>
                         </div>
@@ -172,13 +172,13 @@
         var status = $("#status_").val();
 
         if(masterCode === "" || masterCode === null){
-            alert("Fill in the master code");
+            bootbox.alert("Fill in the master code");
         }
         else if(masterDesc === "" || masterDesc === null){
-            alert("Fill in the master name");
+            bootbox.alert("Fill in the master name");
         }
         else if(status !=='1' && status !=='0'){
-            alert("Select the status");
+            bootbox.alert("Select the status");
         }
         else{
             var data = {
@@ -199,14 +199,14 @@
                         if (datas.trim() === 'Success') {
                             $('#masterTable').load('master_lookup_table_1.jsp');
                              $(".modal-backdrop").hide();
-                            alert("Update Success");
+                            bootbox.alert("Lookup master is updated");
                         } else if (datas.trim() === 'Failed') {
-                            alert("Update failed!");
+                            bootbox.alert("Update failed!");
                         }
 
                 },
                 error: function (err) {
-                    alert("Error! Deletion failed!!");
+                    bootbox.alert("Error! Deletion failed!!");
                 }
 
             });

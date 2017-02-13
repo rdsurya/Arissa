@@ -18,7 +18,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <script src="Dashboard_files\jquery.min.js.download"></script>
+        
         <!-- header -->
     <div w3-include-html="libraries/header.html"></div>
     <link href="assets/css/login.css" rel="stylesheet">
@@ -57,9 +57,11 @@
     <!-- Placed at the end of the document so the pages load faster -->
 
     <div w3-include-html="libraries/script.html"></div>
-
-    <script src="http://www.w3schools.com/lib/w3data.js"></script>
-
+    <!--<script src="Dashboard_files\jquery.min.js.download"></script>
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>-->
+    
+    <script src="assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="assets/js/w3data.js" type="text/javascript"></script>
     <script>
         w3IncludeHTML();
         $(document).ready(function () {

@@ -20,7 +20,7 @@
         
         code = Integer.toString(intCode);
         
-        String sql = "Select detail_reference_code, description from adm_lookup_detail where master_reference_code = '0078' AND detail_reference_code like '"+code+"__'";
+        String sql = "Select detail_reference_code, description from adm_lookup_detail where master_reference_code = '0078' AND detail_reference_code like '"+code+"__' order by description";
         
         ArrayList<ArrayList<String>> listDistrict = conn.getData(sql);
         
@@ -45,7 +45,7 @@
         
     }else if(process.equalsIgnoreCase("town")){
 
-        String sql = "Select detail_reference_code, description from adm_lookup_detail where master_reference_code = '0003' AND detail_reference_code like '"+code+"%'";
+        String sql = "Select detail_reference_code, description from adm_lookup_detail where master_reference_code = '0003' AND detail_reference_code like '"+code+"%' order by description";
 
          ArrayList<ArrayList<String>> listDistrict = conn.getData(sql);
         

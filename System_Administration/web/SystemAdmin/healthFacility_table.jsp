@@ -357,44 +357,124 @@
 
     $('#HFT_btnUpdateConfirm').on('click', function () {
 
-        var systemCode = $('#HFT_systemCode').val();
-        var moduleCode = $('#HFT_moduleCode').val();
-        var pageCode = $('#HFT_pageCode').val();
-        var pageName = $('#HFT_pageName').val();
+        var hfcName = $('#HFT_hfcName').val();
+        var hfcCode = $('#HFT_hfcCode').val();
+        var address1 = $('#HFT_address1').val();
+        var address2 = $('#HFT_address2').val();
+        var address3 = $('#HFT_address3').val();
+        var state = $('#HFT_state').val();
+        var district = $('#HFT_district').val();
+        var town = $('#HFT_town').val();
+        var postcode = $('#HFT_postcode').val();
+        var faxNo = $('#HFT_faxNo').val();
+        var telNo = $('#HFT_telNo').val();
+        var email = $('#HFT_email').val();
+        var contactPerson = $('#HFT_contactPerson').val();
+        var IP_NO = $('#HFT_IP').val();
+        var server = $('#HFT_server').val();
+        var category = $('#HFT_category').val();
+        var reportTo = $('#HFT_reportTo').val();
+        var type = $('#HFT_type').val();
+        var subtype = $('#HFT_subtype').val();
+        var director = $('#HFT_director').val();
         var status = $('#HFT_status').val();
+        var establishDate = $('#HFT_establishedDate').val();
 
-        if (pageName === "" || pageName === null) {
-            alert("Please fill in the page name");
-            $('#HFT_pageName').focus();
 
-        } else if (status !== '1' && status !== '0') {
-            alert("Please choose the status");
-            $('#HFT_status').focus();
+
+        if (hfcName.trim() === "" || hfcName === null) {
+            bootbox.alert("Fill in the health facility name");
+            $('#HFT_hfcName').focus();
+
+        } else if (hfcCode.trim() === "") {
+            bootbox.alert("Fill in the health facility code");
+            $('#HFT_hfcCode').focus();
+
+        } else if (state.trim() === "0") {
+            bootbox.alert("Select the state");
+            $('#HFT_state').focus();
+
+        }else if (district.trim() === "0") {
+            bootbox.alert("Select the district");
+            $('#HFT_district').focus();
+
+        }else if (town.trim() === "0") {
+            bootbox.alert("Select the town");
+            $('#HFT_town').focus();
+
+        }else if (postcode.trim() === "") {
+            bootbox.alert("Fill in the postcode");
+            $('#HFT_postcode').focus();
+
+        } else if (status !== "1" && status !== "0") {
+            bootbox.alert("Select Any Status");
+
+        } else if (isNaN(postcode) === true) {
+            bootbox.alert("Invalid postcode. Postcode must contain number only.");
+            $('#HFT_postcode').val("");
+            $('#HFT_postcode').focus();
+
+        }else if (email !== "" && ValidateEmail(email) === false) {
+            bootbox.alert("Invalid email.");
+            $('#HFT_email').val("");
+            $('#HFT_email').focus();
+
+        }else if (telNo !== "" && validatePhonenumber(telNo) === false) {
+            bootbox.alert("Invalid telephone number. It must contain number, + and - sign without space");
+            $('#HFT_telNo').val("");
+            $('#HFT_telNo').focus();
+
+        }else if (faxNo !== "" && validatePhonenumber(faxNo) === false) {
+            bootbox.alert("Invalid fax number. It must contain number, + and - sign without space");
+            $('#HFT_faxNo').val("");
+            $('#HFT_faxNo').focus();
+
+        }else if (IP_NO !== "" && ValidateIPaddress(IP_NO) === false) {
+            bootbox.alert("Invalid IP address. It must contain 4 octets.");
+            $('#HFT_IP').val("");
+            $('#HFT_IP').focus();
 
         } else {
 
             var data = {
-                systemCode : systemCode,
-                moduleCode : moduleCode,
-                pageCode : pageCode,
-                pageName : pageName,
-                status : status
+                 hfcName : hfcName,
+                    hfcCode : hfcCode,
+                    address1 : address1,
+                    address2 : address2,
+                    address3 : address3,
+                    state : state,
+                    district : district,
+                    town : town,
+                    postcode : postcode,
+                    faxNo : faxNo,
+                    telNo : telNo,
+                    email : email,
+                    contactPerson : contactPerson,
+                    IP_NO : IP_NO,
+                    server : server,
+                    category : category,
+                    reportTo : reportTo,
+                    type : type,
+                    subtype : subtype,
+                    director : director,
+                    status : status,
+                    establishDate : establishDate
             };
 
             $.ajax({
-                url: "page_update.jsp",
+                url: "healthFacility_update.jsp",
                 type: "post",
                 data: data,
                 timeout: 10000,
                 success: function (datas) {
                     console.log(datas.trim());
                     if (datas.trim() === 'Success') {
-                        $('#healthFacilityTable').load('page_table.jsp');
+                        $('#healthFacilityTable').load('healthFacility_table.jsp');
                         $(".modal-backdrop").hide();
                         //alert("Update Success");
                         
                         bootbox.alert({
-                                    message: "Page information is updated",
+                                    message: "Health facility information is updated",
                                     title: "Process Result",
                                     backdrop: true
                                 });
@@ -422,11 +502,11 @@
         var rowData = row.find("#HFT_hidden").val();
         var arrayData = rowData.split("|");
         //assign into seprated val
-        var systemCode = arrayData[0], moduleCode = arrayData[2], pageCode = arrayData[4];
+        var hfcCode = arrayData[0], hfcName = arrayData[2];
         console.log(arrayData);
         
         bootbox.confirm({
-            message: "Are you sure want to delete this item? " + systemCode + "-" + moduleCode + "-" + pageCode,
+            message: "Are you sure want to delete this item? " + hfcCode + "-" + hfcName,
             title: "Delete Item?",
             buttons: {
                 confirm: {
@@ -443,23 +523,21 @@
                 if (result === true) {
                     
                     var data = {
-                        moduleCode : moduleCode,
-                        systemCode : systemCode,
-                        pageCode : pageCode
+                        hfc_cd : hfcCode
                     };
 
                     $.ajax({
-                        url: "page_delete.jsp",
+                        url: "healthFacility_delete.jsp",
                         type: "post",
                         data: data,
                         timeout: 10000, // 10 seconds
                         success: function (datas) {
 
                             if (datas.trim() === 'Success') {
-                                $('#healthFacilityTable').load('page_table.jsp');
+                                $('#healthFacilityTable').load('healthFacility_table.jsp');
                                 //alert("Delete Success");
                                  bootbox.alert({
-                                    message: "A page information is deleted",
+                                    message: "A health facility information is deleted",
                                     title: "Process Result",
                                     backdrop: true
                                 });
@@ -515,6 +593,11 @@
     function createTownList(district, town){
         
         if(district !== '0'){
+            
+            if(district === '00'){
+                    var front = $('#HFT_state').val();
+                    district = front + '00';
+                }
                 
                 var dataFields = {code: district, process : "town"};
                 
@@ -532,9 +615,27 @@
                     }
                 });
             }else{
-                $('#HFT_town').html( '<option  value="0" >-- Select the district --</option>');
+                $('#HFT_town').html( '<option  value="0" >-- Select the town --</option>');
             }
     }
+    
+     $('#HFT_state').on('change', function(){
+            var state =  $('#HFT_state').val();
+           
+            $('#HFT_town').html( '<option  value="0" >-- Select the town --</option>');
+            
+            createDistrictList(state, '0');
+        });
+        
+    
+    $('#HFT_district').on('change' , function(){
+            
+            var district = $('#HFT_district').val();
+            
+            
+            createTownList(district, '0');
+            
+        });
 
 
 
@@ -553,6 +654,7 @@
         $('#HFT_establishedDate').datepicker({
             changeYear: true,
             changeMonth: true,
+            maxDate: 0,
             dateFormat: 'dd/mm/yy'
         });
 

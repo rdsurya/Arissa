@@ -43,9 +43,9 @@
 <td><%= dataDetail.get(i).get(6)%></td> <!--start Date  --> 
 <td><%= dataDetail.get(i).get(7)%></td> <!--end date  --> 
 <td><%if(dataDetail.get(i).get(3).equals("1"))
-                out.print("Active"); 
+                out.print("Inactive"); 
               else
-                out.print("Inactive"); %></td> <!--status 3 --> 
+                out.print("Active"); %></td> <!--status 3 --> 
 
 <td style="width: 5% ">
 
@@ -135,8 +135,8 @@
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
                             <select class="form-control" name="tstatus" id="DLT_status_">
-                                <option id="DLT_option1" value="1" >Active</option>
-                                <option id="DLT_option2" value="0" >Inactive</option>
+                                <option id="DLT_option1" value="0" >Active</option>
+                                <option id="DLT_option2" value="1" >Inactive</option>
                             </select>
                         </div>
                     </div>
@@ -216,27 +216,27 @@
 
 
         if (detailDesc === "" || detailDesc === null) {
-            alert("Please fill in the description");
+            bootbox.alert("Please fill in the description");
             $('#detailDesc_').focus();
 
         } else if (status !== '1' && status !== '0') {
-            alert("Please choose the status");
+            bootbox.alert("Please choose the status");
             $('#DLT_status_').focus();
 
         } else if (priority === "" || priority === null) {
             $('#DLT_priority').focus();
-            alert("Fill in the priority");
+            bootbox.alert("Fill in the priority");
 
         } else if (startDate === "" || startDate === null) {
             $('#DLT_startDate').focus();
-            alert("Fill in the start date");
+            bootbox.alert("Fill in the start date");
 
         } else if (endDate === "" || endDate === null) {
             $('#DLT_endDate').focus();
-            alert("Fill in the end date");
+            bootbox.alert("Fill in the end date");
 
         } else if (startDateX > endDateX) {
-            alert("End date must be later than start date");
+            bootbox.alert("End date must be later than start date");
             $('#DLT_endDate').datepicker('option', 'minDate', startDateX);
             $('#DLT_endDate').focus();
 
@@ -310,7 +310,7 @@
                         $('#detailTable').load('detail_lookup_table_1.jsp');
                         bootbox.alert("A lookup detail is deleted");
                     } else if (datas.trim() === 'Failed') {
-                        alert("Delete failed!");
+                        bootbox.alert("Delete failed!");
                     }
 
                 },
